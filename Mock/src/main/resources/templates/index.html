@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://use.fontawesome.com/96ea11aa82.js"></script>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/responsive.css}">
+    <title>HomePage</title>
+</head>
+<body>
+    <header >
+        <div id="header">
+            <div class="header_container container">
+                <a href="index.html/#header" class = "header_logo">
+                    <img src="image/logo-image/Movie star-logo-white.png" 
+                        class="header_logo-img">
+                </a>
+                <form action="" class = "header__form-search">
+                    <div class="header_search">
+                        <input class= "header_seacrh-input" type="text" placeholder ="Input keyword to search...">
+                        <i class="fa fa-search header_search-icon" aria-hidden="true"></i>
+                    </div>
+               </form>
+               <div>
+               		<a sec:authorize="isAnonymous()" class = "header_login" href="/login">Login/Register</a>
+               		<a sec:authorize="isAuthenticated()" class = "header_login">Welcome <span sec:authentication="principal.fullName"></span> | 
+               			<a sec:authorize="isAuthenticated()"  class = "header_login" href="/logout">Logout</a>
+               		</a>
+               </div>
+ 					
+               
+            </div>
+        </div>
+    </header>
+    
+	<nav id="nav" sec:authorize="isAuthenticated()">
+        <div class="nav__container container">
+            <a th:href="@{/accountMNG/bookedTicket}" th:if="${account.role.toString() == 'Admin' || account.role.toString() == 'Member' || account.role.toString() == 'Employee'}" class="nav_container-link">
+                ACCOUNT MANAGEMENT
+            </a>
+             <a href="" th:if="${account.role.toString() == 'Admin'}" class="nav_container-link">
+                TIKET BOOKING MANAGEMENT
+            </a>
+            <a th:href="@{/employeeMNG/employee-list}" th:if="${account.role.toString() == 'Admin'}" class="nav_container-link">
+                EMPLOYEE MANAGEMENT
+            </a>
+            <a th:href="@{/roomMNG/roomMNG-list}" th:if="${account.role.toString() == 'Admin'}" class="nav_container-link">
+                ROOM MANAGEMENT
+            </a>
+            <a th:href="@{/ticketsellingMNG/showtime}" th:if="${account.role.toString() == 'Admin' || account.role.toString() == 'Employee'}" class="nav_container-link">
+                TICKET SELLING MANAGEMENT
+            </a>
+            <a th:href="@{/movieMNG/movie-list}" th:if="${account.role.toString() == 'Admin'}" class="nav_container-link">
+                MOVIE MANAGEMENT
+            </a>
+            <a th:href="@{/promotionMNG/promotion-list}" th:if="${account.role.toString() == 'Admin'}" class="nav_container-link">
+                PROMOTION MANAGEMENT
+            </a>        
+        </div>
+        
+    </nav>
+     
+
+    <main id="main">
+        <div class="content__container container">
+            <div class="content-left">
+                <a href="" class="content-left__slider">
+                    <img src="image/slider/slide2.png" alt="">
+                </a>
+                <!-- list 1 -->
+                <div class="content-left__films">
+                    <div class="content-left__films-title">
+                        <h2 class="content-left__films_heading">
+                            <i class="fa fa-fire"></i>
+                            SHOW NOW
+                        </h2>
+                        <a class="content-left__films_btn text-decoration-none" th:href="@{/ticketbookingofuserMNG/showtime}">
+                            Xem tất cả
+                            <i class="fa fa-angle-double-right"></i>
+                        </a>                       
+                    </div>
+                    
+                    <div class="content-left__list-films">
+                    	
+                        <div class="list-films__col1">
+                        	<th:block th:each="movie : ${listMovie}">
+                            <div class="film-item">
+                                <a class="film-item-block" href="">
+                                    <div class="film-item-picture">
+                                        <img class="film-item__image" th:src="@{'/img/movie/'+${movie.id}+'/'+${movie.largeImage}}" alt="film1" title ="Cạm bẫy ngọt ngào">
+                                    </div>
+                                    <div class = "film-item__title">
+                                        <h2 class = "film-item__desc" th:text="${movie.movieNameVn}"></h2>
+                                        <p class = "film-item__desc" th:text="${movie.actor}"></p>
+                                        <p class = "film-item__desc" th:text="${movie.movieProductCompany}"></p>
+                                        <p class = "film-item__desc"th:text="${movie.duration}"></p>
+                                        <p class ="film-item__desc">Hành động, Hài hước</p>
+                                    </div>
+                                </a>
+                                <div class="film-item-buy-tickets">
+                                    <a class="film-item-buy-btn" th:href="@{/ticketbookingofuserMNG/showtime}">Buy Ticket</a>
+                                </div>
+                            </div>
+                            </th:block>
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+                <!-- list phim 2 -->
+                <div class="content-left__films">
+                    <div class="content-left__films-title">
+                        <h2 class="content-left__films_heading">
+                            <i class="fa fa-fire"></i>
+                            COMMING SOON
+                        </h2>
+                        <button class="content-left__films_btn">
+                            Xem tất cả
+                            <i class="fa fa-angle-double-right"></i>
+                        </button>                       
+                    </div>
+                    <div class="content-left__list-films">
+                        <div class="list-films__col1">
+                            <div class="film-item">
+                                <a class="film-item-block" href="">
+                                    <div class="film-item-picture">
+                                        <img class="film-item__image" src="image/film-image/section1/0016379_0.jpeg" alt="film1" title ="Khu vực nguy hiểm">
+                                    </div>
+                                    <div class = "film-item__title">
+                                        <h2 class = "film-item__desc">Spider man</h2>
+                                        <p class = "film-item__desc">Actor:Tom Holland, Zendaya</p>
+                                        <p class = "film-item__desc">Company: Sony Picture</p>
+                                        <p class = "film-item__desc">Duration: 120</p>
+                                        <p class ="film-item__desc">Hành động, kinh dị</p>
+                                    </div>
+                                </a>
+                                <div class="film-item-buy-tickets">
+                                    <button class="film-item-buy-btn">Buy Ticket</button>
+                                </div>
+                            </div>
+                            <div class="film-item">
+                                <a class="film-item-block" href="">
+                                    <div class="film-item-picture">
+                                        <img class="film-item__image" src="image/film-image/section1/0016409_0.jpeg" alt="film1" title ="Khu vực nguy hiểm">
+                                    </div>
+                                    <div class = "film-item__title">
+                                        <h2 class = "film-item__desc">Spider man</h2>
+                                        <p class = "film-item__desc">Actor:Tom Holland, Zendaya</p>
+                                        <p class = "film-item__desc">Company: Sony Picture</p>
+                                        <p class = "film-item__desc">Duration: 120</p>
+                                        <p class ="film-item__desc">Hành động, kinh dị</p>
+                                    </div>
+                                </a>
+                                <div class="film-item-buy-tickets">
+                                    <button class="film-item-buy-btn">Buy Ticket</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+               
+            </div>
+                
+            <div class="content-right">
+                <div class="content-right__caption">
+                    <p>
+                        <i class="fa fa-line-chart"></i>
+                        <span>Most Watched Movies</span>
+                    </p>
+                </div>
+                <div class="content-right_date">
+                    <a class="active" href="">DAY</a>
+                    <a href="">WEEK</a>
+                    <a href="">MONTH</a>
+                </div>
+                <div class="content-right__films">
+                    <a href= "" class="content-right__item">
+                        <img src="image/film-image/section2/1.jpg" alt="" class="content-right__img">
+                        <div class="content-right__img-title">
+                            <p class="content-right__img-heading">Thấy phần 2</p>
+                            <p class="content-right__img-year">See Season 2 (2021)</p>
+                            <p class = "content-right__img-view">
+                                <i class ="fa fa-eye"></i>
+                                1,133 lượt xem
+                            </p>
+                            <div class="content-right__stars">
+                                <i class="fa fa-star star-white"></i>
+                                <i class="fa fa-star star-white"></i>
+                                <i class="fa fa-star star-white"></i>
+                                <i class="fa fa-star star-white"></i>
+                                <i class="fa fa-star star-black"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <a href= "" class="content-right__item">
+                        <img src="image/film-image/section2/2.jpg" alt="" class="content-right__img">
+                        <div class="content-right__img-title">
+                            <p class="content-right__img-heading">Lớp 3A, từ giờ các em là con tin</p>
+                            <p class="content-right__img-year">Class 3A, All of you are hostages from now on (2019)</p>
+                            <p class = "content-right__img-view">
+                                <i class ="fa fa-eye"></i>
+                                1,165 lượt xem
+                            </p>
+                            <div class="content-right__stars">
+                                <i class="fa fa-star star-white"></i>
+                                <i class="fa fa-star star-white"></i>
+                                <i class="fa fa-star star-white"></i>
+                                <i class="fa fa-star star-white"></i>
+                                <i class="fa fa-star star-black"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <a href= "" class="content-right__item">
+                        <img src="image/film-image/section2/3.jpg" alt="" class="content-right__img">
+                        <div class="content-right__img-title">
+                            <p class="content-right__img-heading">Chuyện đời bác sĩ (Phần 1)</p>
+                            <p class="content-right__img-year">Hospital Playlist 1 (2020)</p>
+                            <p class = "content-right__img-view">
+                                <i class ="fa fa-eye"></i>
+                                981 lượt xem
+                            </p>
+                            <div class="content-right__stars">
+                                <i class="fa fa-star star-white"></i>
+                                <i class="fa fa-star star-white"></i>
+                                <i class="fa fa-star star-white"></i>
+                                <i class="fa fa-star star-white"></i>
+                                <i class="fa fa-star star-black"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <a href= "" class="content-right__item">
+                        <img src="image/film-image/section2/4.jpg" alt="" class="content-right__img">
+                        <div class="content-right__img-title">
+                            <p class="content-right__img-heading">Chúa tể địa ngục phần 6</p>
+                            <p class="content-right__img-year">Lucifer Final Season (2021)</p>
+                            <p class = "content-right__img-view">
+                                <i class ="fa fa-eye"></i>
+                                880 lượt xem
+                            </p>
+                            <div class="content-right__stars">
+                                <i class="fa fa-star star-white"></i>
+                                <i class="fa fa-star star-white"></i>
+                                <i class="fa fa-star star-white"></i>
+                                <i class="fa fa-star star-white"></i>
+                                <i class="fa fa-star star-black"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <a href= "" class="content-right__item">
+                        <img src="image/film-image/section2/5.jpg" alt="" class="content-right__img">
+                        <div class="content-right__img-title">
+                            <p class="content-right__img-heading">Chuyện đời bác sĩ (Phần 2)</p>
+                            <p class="content-right__img-year">Hospital Playlist 2 (2021)</p>
+                            <p class = "content-right__img-view">
+                                <i class ="fa fa-eye"></i>
+                                1,390 lượt xem
+                            </p>
+                            <div class="content-right__stars">
+                                <i class="fa fa-star star-white"></i>
+                                <i class="fa fa-star star-white"></i>
+                                <i class="fa fa-star star-white"></i>
+                                <i class="fa fa-star star-white"></i>
+                                <i class="fa fa-star star-black"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <a href= "" class="content-right__item">
+                        <img src="image/film-image/section2/6.jpg" alt="" class="content-right__img">
+                        <div class="content-right__img-title">
+                            <p class="content-right__img-heading">365 Ngày yêu anh</p>
+                            <p class="content-right__img-year">365 Days (2020)</p>
+                            <p class = "content-right__img-view">
+                                <i class ="fa fa-eye"></i>
+                                2,241 lượt xem
+                            </p>
+                            <div class="content-right__stars">
+                                <i class="fa fa-star star-white"></i>
+                                <i class="fa fa-star star-white"></i>
+                                <i class="fa fa-star star-white"></i>
+                                <i class="fa fa-star star-white"></i>
+                                <i class="fa fa-star star-black"></i>
+                            </div>
+                        </div>
+                    </a>
+                    
+                </div>
+                <div class ="content-right__tags">
+                    <p class="content-right__tags-title">
+                        <i class ="fa fa-tags"></i>
+                        TAGS
+                    </p>
+                    <ul class="content-right__tags-list">
+                        <li class="content-right__tags-item">
+                            <a href="" >IP Man </a>
+                        </li>
+                        <li class="content-right__tags-item">
+                            <a href="" >Spider man</a>
+                        </li>
+                        <li class="content-right__tags-item">
+                            <a href="" >Mavel</a>
+                        </li>
+                        <li class="content-right__tags-item">
+                            <a href="" >End Game</a>
+                        </li>
+                        <li class="content-right__tags-item">
+                            <a href="" >Captain America</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer id="footer">
+        <div class="footer__container">
+            <div class="footer__container-logo">
+                <img src="image/logo-image/Movie star-logo-white.png" alt="">
+            </div>
+            <p class = "footer__copyright">Copyright &copy; 2022 by Team 1 - FJB04. All Rights Reserved.</p>
+            <div class = "footer__link">
+                <a href="">Home Page</a> |
+                <a href="">Show now</a> |
+                <a href="">Comming soon</a>
+            </div>
+        </div>
+
+    </footer>
+    
+
+</body>
+</html>

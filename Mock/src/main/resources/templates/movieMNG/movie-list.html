@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" th:href="@{/css/main.css}">
+<link rel="stylesheet" th:href="@{/css/responsive.css}">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+<link rel="stylesheet" th:href="@{/css/movie.css}">
+<title>Movie - list</title>
+<style type="text/css">
+.message {
+	color: green;
+}
+</style>
+</head>
+
+<body>
+	<header >
+        <div id="header">
+            <div class="header_container container">
+                <div class="navbar-drop" sec:authorize="isAuthenticated()">
+                    <ul>
+                        <li>
+                            <a href=""><i class="fas fa-bars"></i></a>
+                            <div class="navbar-drop-item">
+                            	<a th:href="@{/}" th:if="${account.role.toString() == 'Admin' || account.role.toString() == 'Member' || account.role.toString() == 'Employee'}">
+					                Home
+					            </a>
+                                <a href="" th:href="@{/accountMNG/bookedTicket}" th:if="${account.role.toString() == 'Admin' || account.role.toString() == 'Member' || account.role.toString() == 'Employee'}">
+					                Account Management
+					            </a>
+					             <a href="" th:if="${account.role.toString() == 'Admin'}">
+					                Ticket Booking Management
+					            </a>
+					            <a th:href="@{/employeeMNG/employee-list}" th:if="${account.role.toString() == 'Admin'}">
+					                Employee Management
+					            </a>
+					            <a th:href="@{/roomMNG/roomMNG-list}" th:if="${account.role.toString() == 'Admin'}">
+					                Room Management
+					            </a>
+					            <a href="" th:if="${account.role.toString() == 'Admin' || account.role.toString() == 'Employee'}">
+					                Ticket Selling Management
+					            </a>
+					            <a th:href="@{/movieMNG/movie-list}" th:if="${account.role.toString() == 'Admin'}">
+					                Movie Management
+					            </a>
+					            <a th:href="@{/promotionMNG/promotion-list}" th:if="${account.role.toString() == 'Admin'}">
+					                Promotion Management
+					            </a>        
+                            </div>
+                        </li> 
+                    </ul>
+                </div>
+                <div>
+               		<a sec:authorize="isAnonymous()" class = "header_login" href="/login">Login/Register</a>
+               		<a sec:authorize="isAuthenticated()" class = "header_login">Welcome <span sec:authentication="name"></span> | 
+               			<a sec:authorize="isAuthenticated()"  class = "header_login" href="/logout">Logout</a>
+               		</a>
+               </div>
+            </div>
+        </div>
+    </header>
+	<main class="w-75 m-auto">
+
+		<div>
+			<a th:href="@{/movieMNG/movie-add}"
+				class="btn btn-sm btn-primary ml-3 mt-3"> +Add</a>
+			<form class="text-right mr-5 mb-3">
+				Search: <input class="border p-2 rounded" type="text"
+					placeholder="Input keyword..." name="titlesearch">
+			</form>
+			<h4 class="text-center mt-4 mb-4">Movie list</h4>
+			<span th:text="${message}" class="message"></span>
+			<table class="table table-bordered table-striped">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Movie (ENG)</th>
+						<th>Movie (VN)</th>
+						<th>Release Date</th>
+						<th>Movie Production Company</th>
+						<th>Duration</th>
+						<th>Version</th>
+						<th>Detail</th>
+						<th>Delete</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="movie: ${list}">
+						<td th:text="${movie.id}"></td>
+						<td th:text="${movie.movieNameEnglish}"></td>
+						<td th:text="${movie.movieNameVn}"></td>
+						<td th:text="${movie.fromDate}"></td>
+						<td th:text="${movie.movieProductCompany}"></td>
+						<td th:text="${movie.duration}"></td>
+						<td th:text="${movie.version}"></td>
+						<td><a th:href="@{'/movieMNG/movie-update/' + ${movie.id}}"><i
+								class="fas fa-info-circle"></i></a></td>
+						<td><a th:href="@{'/movieMNG/movie-delete/' + ${movie.id}}"><i
+								class="fas fa-trash-alt"></i></a></td>
+					</tr>
+
+				</tbody>
+			</table>
+			<nav aria-label="Page navigation example">
+				<ul class="pagination">
+					<li class="page-item"><a class="page-link"
+						th:href="@{/movieMNG/movie-list/?titlesearch={titlesearch}&page=1 (titlesearch=${titlesearch.toString})}">First</a></li>
+					<li class="page-item"><a class="page-link"
+						th:href="@{/movieMNG/movie-list?titlesearch={titlesearch}&page={p} (p = ${list.getNumber},titlesearch=${titlesearch.toString})}"
+						th:if="${list.getNumber} <= ${list.getTotalPages} and ${list.getNumber}>=1">Preview</a></li>
+					<li class="page-item"><a class="page-link"
+						th:href="@{/movieMNG/movie-list?titlesearch={titlesearch}&page={p} (p = ${list.getNumber}+1,titlesearch=${titlesearch.toString})}"
+						th:text="${list.getNumber + 1} "
+						th:if="${list.getNumber + 1} <= ${list.getTotalPages}"></a></li>
+					<li class="page-item"><a class="page-link"
+						th:href="@{/movieMNG/movie-list?titlesearch={titlesearch}&page={p} (p = ${list.getNumber}+2,titlesearch=${titlesearch.toString})}"
+						th:text="${list.getNumber + 2}"
+						th:if="${list.getNumber + 2} <= ${list.getTotalPages}"></a></li>
+					<li class="page-item"><a class="page-link"
+						th:href="@{/movieMNG/movie-list?titlesearch={titlesearch}&page={p} (p = ${list.getNumber}+3,titlesearch=${titlesearch.toString})}"
+						th:text="${list.getNumber + 3}"
+						th:if="${list.getNumber + 3} <= ${list.getTotalPages}"></a></li>
+					<li class="page-item"><a class="page-link"
+						th:href="@{/movieMNG/movie-list?titlesearch={titlesearch}&page={p} (p = ${list.getNumber}+4,titlesearch=${titlesearch.toString})}"
+						th:if="${list.getNumber + 4} <= ${list.getTotalPages}">Next</a></li>
+					<li class="page-item"><a class="page-link"
+						th:href="@{/movieMNG/movie-list?titlesearch={titlesearch}&page={p} (p = ${list.getTotalPages},titlesearch=${titlesearch.toString})}">Last</a></li>
+				</ul>
+			</nav>
+
+		</div>
+	</main>
+	<footer id="footer">
+		<div class="footer__container">
+			<div class="footer__container-logo">
+				<img th:src="@{/image/logo-image/Movie star-logo-white.png}" alt="">
+			</div>
+			<p class="footer__copyright">Copyright &copy; 2022 by Team 1 -
+				FJB04. All Rights Reserved.</p>
+		</div>
+
+	</footer>
+
+
+</body>
+
+</html>

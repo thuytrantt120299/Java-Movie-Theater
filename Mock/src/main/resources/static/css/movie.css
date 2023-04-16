@@ -1,0 +1,139 @@
+main{
+    min-height: 66vh;
+    height:auto;
+}
+
+.btn{
+    background-color: #005ea8;
+    color:#fff;
+}
+.form-container{
+    width: 80%;
+    margin:auto;
+}
+label{
+    font-weight: 600;
+    margin-left:12px;
+    margin-bottom: 3px;
+}
+.seat-table{
+    margin:auto;
+}
+.seat-column{
+    border: 1px solid black;
+    border-radius: 5px;
+    display: block;
+    float: left;
+    width: 40px;
+    height:30px;
+    margin: 10px 8px;
+}
+.cinema-screen{
+    background-color:#005ea8;
+    color: #fff;
+    height: 30px;
+    width: 50%;
+    margin:auto;
+}
+
+.seat-color{
+    width: 15px;
+    height:15px;
+    display:inline-block;
+}
+.statusbooking{
+    display:inline-block;
+}
+.tiket-header{
+    color:#005ea8;
+}
+th,td{
+    padding: 3px !important;
+}
+/* css dropdow nav bar */
+.navbar-drop{
+    
+    z-index: 10;
+}
+.navbar-drop i{
+    color: #fff;
+    font-size: 24px;
+    text-decoration: none;
+    line-height: 55px;
+}
+.navbar-drop li{
+    list-style-type: none;
+    position:absolute;
+}
+.navbar-drop-item{
+    display:none;
+    text-decoration: none;
+    color: #fff;
+    position:relative;
+    left:-20px;
+}
+
+.navbar-drop:hover .navbar-drop-item{
+    display:block;
+}
+.navbar-drop-item a{
+    display:block;
+    background-color: #005ea8;
+    text-decoration: none;
+    color: #fff;
+    padding: 5px 15px;
+    border: 1px solid rgb(74, 120, 219);
+}
+.navbar-drop-item a:hover{
+    background-color: green;
+    text-decoration: none;
+    color: #fff;
+}
+
+.left-menu{
+    height: 75vh;
+    margin-bottom: -10px;
+}
+.user-image{
+    width: 80px;
+    height:80px;
+    border-radius: 50%;
+    background-color: #ddd;
+}
+.required:after {
+    content:" *";
+    color: red;
+  }
+
+.show-day{
+    width: 60px;
+    height:60px;
+    line-height: 15px;
+    color:#fff;
+}
+.show-img-film{
+    width: 15%;
+}
+.show-time-body{
+    width: 80%;
+    margin:auto;
+}
+
+form .error {
+    color: #ee4949;
+}
+
+
+/* to change the appearance of error messages */
+
+label.error.fail-alert {
+    color: rgb(224, 86, 86);
+    margin-top: 10px;
+    padding: 0px 0 6px 6px;
+    background: white;
+}
+
+input.valid.success-alert {
+    border: 2px solid #4CAF50;
+    color: green;
+}

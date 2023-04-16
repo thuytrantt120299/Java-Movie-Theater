@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- For google icons  -->
+<link
+	href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
+	rel="stylesheet">
+<link rel="stylesheet" th:href="@{/css/register.css}">
+<title>Register form</title>
+
+</head>
+
+<body>
+
+	<!-- for background -->
+	<div class="background"></div>
+
+	<!-- for form container -->
+	<div class="container">
+		<h3>Register Account</h3>
+		<form th:action="@{/registration}" method="post"
+			th:object="${account}">
+
+			<div class="form-item">
+				<span class="material-icons-outlined"> account_circle </span> <input
+					type="text" name="username" th:value="*{username}" id="username"
+					placeholder="Username">
+			</div>
+
+			<span th:each="err : ${#fields.errors('username')}" th:text="${err}"
+				class="error" />
+
+
+
+			<div class="form-item">
+				<span class="material-icons-outlined"> lock </span> <input
+					type="password" th:field="*{password}" placeholder="Password"
+					minlength="8" maxlength="20"
+					oninput="checkPasswordMatch(document.getElementById('confirmPassword'))" />
+			</div>
+
+			<span th:each="err : ${#fields.errors('password')}" th:text="${err}"
+				class="error" > </span>
+
+			<div class="form-item">
+				<span class="material-icons-outlined"> lock </span> <input
+					type="password" id="confirmPassword" minlength="8" maxlength="20"
+					oninput="checkPasswordMatch(this)" placeholder="Confirm Password" />
+			</div>
+
+			<div class="form-item">
+				<span class="material-icons-outlined"> badge </span> <input
+					type="text" name="fullName" th:value="*{fullName}" id="fullName"
+					placeholder="Full name">
+			</div>
+
+			<span th:each="err : ${#fields.errors('fullName')}" th:text="${err}"
+				class="error" /> 
+
+
+		 <div class="form-item">
+				<span class="material-icons-outlined"> calendar_month </span> <input
+					type="date" name="dateOfBirth" th:value="*{dateOfBirth}" id="dateOfBirth"
+					placeholder="Date of birth">
+			</div>
+
+
+			<div class="form-item">
+				<span class="material-icons-outlined"> credit_card </span> <input
+					type="number" name="identityCard" th:value="*{identityCard}"
+					id="identityCard" placeholder="Identity Card">
+			</div>
+
+			<span th:each="err : ${#fields.errors('identityCard')}"
+				th:text="${err}" class="error" />
+
+			<div class="form-item">
+				<span class="material-icons-outlined"> email </span> <input
+					type="email" name="email" th:value="*{email}" id="email"
+					placeholder="Email">
+			</div>
+
+			<span th:each="err : ${#fields.errors('email')}" th:text="${err}"
+				class="error" />
+
+			<div class="form-item">
+				<span class="material-icons-outlined"> home </span> <input
+					type="text" name="address" th:value="*{address}" id="address"
+					placeholder="Address">
+			</div>
+
+			<span th:each="err : ${#fields.errors('address')}" th:text="${err}"
+				class="error" />
+
+			<div class="form-item">
+				<span class="material-icons-outlined"> perm_phone_msg </span> <input
+					type="number" name="phoneNumber" th:value="*{phoneNumber}"
+					id="phone" placeholder="Phone number">
+			</div>
+
+			<span th:each="err : ${#fields.errors('phoneNumber')}"
+				th:text="${err}" class="error" />
+
+
+			<div id="test">
+				<input type="radio" th:field="*{gender}" name="male" id="male"
+					value="Male"> Male <input type="radio" th:field="*{gender}"
+					name="female" id="female" value="Female"> Female
+			</div>
+
+			<span th:each="err : ${#fields.errors('gender')}" th:text="${err}"
+				class="error" />
+
+
+			<button type="submit">REGISTER</button>
+
+		</form>
+	</div>
+
+
+	<script type="text/javascript">
+		moduleURL = "[[@{/}]]";
+
+		function checkPasswordMatch(confirmPassword) {
+			if (confirmPassword.value != $("#password").val()) {
+				confirmPassword.setCustomValidity("Passwords do not match!");
+			} else {
+				confirmPassword.setCustomValidity("");
+			}
+		}
+	</script>
+</body>
+
+</html>

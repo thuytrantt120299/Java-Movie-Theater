@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/promotion.css}">
+    <link rel="stylesheet" th:href="@{/css/responsive.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    
+    <title>Employee list</title>
+</head>
+<body>
+    <header >
+        <div id="header">
+            <div class="header_container container">
+                <div class="navbar-drop" sec:authorize="isAuthenticated()">
+                    <ul>
+                        <li>
+                            <a href=""><i class="fas fa-bars"></i></a>
+                            <div class="navbar-drop-item">
+                            	<a th:href="@{/}" th:if="${account.role.toString() == 'Admin' || account.role.toString() == 'Member' || account.role.toString() == 'Employee'}">
+					                Home
+					            </a>
+                                <a href="" th:href="@{/accountMNG/bookedTicket}" th:if="${account.role.toString() == 'Admin' || account.role.toString() == 'Member' || account.role.toString() == 'Employee'}">
+					                Account Management
+					            </a>
+					             <a href="" th:if="${account.role.toString() == 'Admin'}">
+					                Ticket Booking Management
+					            </a>
+					            <a th:href="@{/employeeMNG/employee-list}" th:if="${account.role.toString() == 'Admin'}">
+					                Employee Management
+					            </a>
+					            <a th:href="@{/roomMNG/roomMNG-list}" th:if="${account.role.toString() == 'Admin'}">
+					                Room Management
+					            </a>
+					            <a href="" th:if="${account.role.toString() == 'Admin' || account.role.toString() == 'Employee'}">
+					                Ticket Selling Management
+					            </a>
+					            <a th:href="@{/movieMNG/movie-list}" th:if="${account.role.toString() == 'Admin'}">
+					                Movie Management
+					            </a>
+					            <a th:href="@{/promotionMNG/promotion-list}" th:if="${account.role.toString() == 'Admin'}">
+					                Promotion Management
+					            </a>        
+                            </div>
+                        </li> 
+                    </ul>
+                </div>
+                <div>
+               		<a sec:authorize="isAnonymous()" class = "header_login" href="/login">Login/Register</a>
+               		<a sec:authorize="isAuthenticated()" class = "header_login">Welcome <span sec:authentication="name"></span> | 
+               			<a sec:authorize="isAuthenticated()"  class = "header_login" href="/logout">Logout</a>
+               		</a>
+               </div>
+            </div>
+        </div>
+    </header>   
+         
+    <main class="w-75 m-auto">
+        <div>
+            <h4 class="text-center mt-4 mb-4">Employee list</h4>
+            <div class="col-md-8 mb-4">
+                <a class="btn btn-sm btn-primary ml-3 mt-3" th:href="@{/employeeMNG/new-employee}">+ Add new</a>
+            </div>
+            <form class="text-right mr-5 mb-3">
+                Search: <input class= "border p-2 rounded" type="text" placeholder ="Input name..." name="nameSearch" th:value=${nameSearch.toString}>
+            </form>
+            <table class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th>Employee ID</th>
+                  <th>Username</th>
+                  <th>Full name</th>
+                  <th>Date of birth</th>
+                  <th>Gender</th>
+                  <th>Email</th>
+                  <th>Identity Card</th>
+                  <th>Phone number</th>
+                  <th>Address</th>
+                  <th>Register date</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="employee : ${list}" th:object="${employee}">  
+                  <td th:text = "${employee.accountId}">ID</td>
+                  <td th:text = "${employee.username}">nhanvien01</td>
+                  <td th:text = "${employee.fullName}">Tran Van Tien</td>
+                  <td th:text = "${employee.dateOfBirth}">21/11/1996</td>
+                  <td th:text = "${employee.gender}">F</td>
+                  <td th:text = "${employee.email}">tientran@gmail.com</td>
+                  <td th:text = "${employee.identityCard}"></td>
+                  <td th:text = "${employee.phoneNumber}">6</td>
+                  <td th:text = "${employee.address}">Hue</td>
+                  <td th:text = "${employee.registerDate}">07/11/2018</td>
+                  <td><a th:href="@{'/employeeMNG/edit-employee/' + ${employee.accountId}}"><i class="fas fa-edit"></i>Edit</a></td>
+                  <td><a th:href="@{'/employeeMNG/delete-employee/' + ${employee.accountId}}"><i class="fas fa-trash-alt"></i>Delete</a></td>
+                </tr>
+               
+              </tbody>
+            </table>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                	<li class="page-item"><a class="page-link" th:href="@{/employeeMNG/employee-list/?nameSearch={nameSearch}&page=1 (nameSearch=${nameSearch.toString})}" >First</a></li>
+			    	<li class="page-item"><a class="page-link" th:href="@{/employeeMNG/employee-list?nameSearch={nameSearch}&page={p} (p = ${list.getNumber},nameSearch=${nameSearch.toString})}" th:if="${list.getNumber} <= ${list.getTotalPages} and ${list.getNumber}>=1" >Preview</a></li>
+			    	<li class="page-item"><a class="page-link" th:href="@{/employeeMNG/employee-list?nameSearch={nameSearch}&page={p} (p = ${list.getNumber}+1,nameSearch=${nameSearch.toString})}" th:text="${list.getNumber + 1} " th:if="${list.getNumber + 1} <= ${list.getTotalPages}"></a></li>
+			    	<li class="page-item"><a class="page-link" th:href="@{/employeeMNG/employee-list?nameSearch={nameSearch}&page={p} (p = ${list.getNumber}+2,nameSearch=${nameSearch.toString})}" th:text="${list.getNumber + 2}" th:if="${list.getNumber + 2} <= ${list.getTotalPages}"></a></li>
+			    	<li class="page-item"><a class="page-link" th:href="@{/employeeMNG/employee-list?nameSearch={nameSearch}&page={p} (p = ${list.getNumber}+3,nameSearch=${nameSearch.toString})}" th:text="${list.getNumber + 3}" th:if="${list.getNumber + 3} <= ${list.getTotalPages}"></a></li>
+			    	<li class="page-item"><a class="page-link" th:href="@{/employeeMNG/employee-list?nameSearch={nameSearch}&page={p} (p = ${list.getNumber}+4,nameSearch=${nameSearch.toString})}" th:if="${list.getNumber + 4} <= ${list.getTotalPages}">Next</a></li>
+			    	<li class="page-item"><a class="page-link" th:href="@{/employeeMNG/employee-list?nameSearch={nameSearch}&page={p} (p = ${list.getTotalPages},nameSearch=${nameSearch.toString})}">Last</a></li>
+                </ul>
+              </nav>
+            
+          </div>
+    </main>
+    <footer id="footer">
+        <div class="footer__container">
+            <div class="footer__container-logo">
+                <img src="image/logo-image/Movie star-logo-white.png" alt="">
+            </div>
+            <p class = "footer__copyright">Copyright &copy; 2022 by Team 1 - FJB04. All Rights Reserved.</p>
+        </div>
+
+    </footer>
+    
+
+</body>
+</html>

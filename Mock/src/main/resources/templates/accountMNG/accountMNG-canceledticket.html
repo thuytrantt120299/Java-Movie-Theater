@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/promotion.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    
+    <title>Account Manager - Canceled ticket</title>
+</head>
+<body>
+    <header >
+        <div id="header">
+            <div class="header_container container">
+                <a href="index.html/#header" class = "header_logo">
+                    <img src="image/logo-image/Movie star-logo-white.png" 
+                        alt="Logo_phimmoi" class="header_logo-img">
+                </a>
+                <div class="navbar-drop">
+                    <ul>
+                        <li>
+                            <a href=""><i class="fas fa-bars"></i></a>
+                            <div class="navbar-drop-item">
+                                <a href="">Home</a>
+                                <a href="">Account Management</a>
+                                <a href="">Employee Management</a>
+                                <a href="">Ticket Selling Management</a>
+                                <a href="">Ticket Booking Management</a>
+                                <a href="">Movie Management</a>
+                                <a href="">Room Management</a>
+                                <a href="">Promotion Management</a>
+                            </div>
+                        </li> 
+
+                        
+                        
+                    </ul>
+                </div>
+                <form action="" class = "header__form-search">
+                    <div class="header_search">
+                        <input class= "header_seacrh-input" type="text" placeholder ="Input keyword to search...">
+                        <i class="fa fa-search header_search-icon" aria-hidden="true"></i>
+                    </div>
+                </form>
+                <a class = "header_login" href="login.html">Login/Register</a>
+            </div>
+        </div>
+    </header>
+      
+    <main>
+        <div class="container-fluid mt-0">
+            <div class="row">
+                <!-- Left menu -->
+                <div class="col-sm-2 border border-top-0 border-bottom-0 border-left-0 p-0 left-menu">
+                    <div class="user-image m-auto"><img src="" alt=""></div>
+                    <h5 class="user-name text-center mt-2"> tientv5</h5>
+                    <p class="user-score text-center mt-2"><i class="fas fa-star text-warning"></i> 36.500</p>
+                    <ul class="list-group">
+                        <li class="list-group-item">Account information</li>
+                        <li class="list-group-item">History</li>
+                        <li class="list-group-item">Booked ticket</li>
+                        <li class="list-group-item font-weight-bold">Canceled ticket</li>
+                    </ul>
+                </div>
+                    
+                <!-- right menu -->
+                <div class="col-sm-10">
+                    <div>
+                        <h4 class="text-center mt-4 mb-4">Canceled Ticket</h4>
+                        <div class="d-flex justify-content-between">
+                            <div class="form-group form-inline">
+                                Show 
+                                <select class="form-control ml-2 mr-2" id="sel1" name="entries">
+                                  <option value="5">5</option>
+                                  <option value="10">10</option>
+                                  <option value="20">20</option>
+                                  <option value="50">50</option>
+                                </select> entries
+                            </div>
+                            <form>
+                                <input class= "border p-2 rounded" type="text" placeholder ="Input keyword to search...">
+                            </form>
+                        </div>
+                        
+                        <table class="table table-bordered table-striped">
+                          <thead>
+                            <tr>
+                              <th>#</th>
+                              <th>MOVIE NAME</th>
+                              <th>BOOKING DATE</th>
+                              <th>STATUS</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>  
+                              <td>1</td>
+                              <td>Doctor Strange: Phù thủy tối thượng </td>
+                              <td>18/11/2008 13:10</td>
+                              <td>Canceled</td>
+                            </tr>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination">
+                              <li class="page-item"><a class="page-link" >First</a></li>
+                              <li class="page-item"><a class="page-link" >Preview</a></li>
+                              <li class="page-item"><a class="page-link" >1</a></li>
+                              <li class="page-item"><a class="page-link" >2</a></li>
+                              <li class="page-item"><a class="page-link" >3</a></li>
+                              <li class="page-item"><a class="page-link" >Next</a></li>
+                              <li class="page-item"><a class="page-link" >Last</a></li>
+                            </ul>
+                        </nav>
+                        
+                      </div>
+                </div>
+              </div>
+        </div>   
+        
+    </main>
+    <footer id="footer">
+        <div class="footer__container">
+            <div class="footer__container-logo">
+                <img src="image/logo-image/Movie star-logo-white.png" alt="">
+            </div>
+            <p class = "footer__copyright">Copyright &copy; 2022 by Team 1 - FJB04. All Rights Reserved.</p>
+        </div>
+
+    </footer>
+    
+
+</body>
+</html>

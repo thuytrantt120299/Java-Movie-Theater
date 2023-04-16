@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/promotion.css}">
+    <link rel="stylesheet" th:href="@{/css/responsive.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    
+    <title>Ticket booking of user - Show time</title>
+</head>
+<body>
+    <header >
+        <div id="header">
+            <div class="header_container container">
+                <div class="navbar-drop" sec:authorize="isAuthenticated()">
+                    <ul>
+                        <li>
+                            <a href=""><i class="fas fa-bars"></i></a>
+                            <div class="navbar-drop-item">
+                            	<a th:href="@{/}" th:if="${account.role.toString() == 'Admin' || account.role.toString() == 'Member' || account.role.toString() == 'Employee'}">
+					                Home
+					            </a>
+                                <a href="" th:href="@{/accountMNG/bookedTicket}" th:if="${account.role.toString() == 'Admin' || account.role.toString() == 'Member' || account.role.toString() == 'Employee'}">
+					                Account Management
+					            </a>
+					             <a href="" th:if="${account.role.toString() == 'Admin'}">
+					                Ticket Booking Management
+					            </a>
+					            <a th:href="@{/employeeMNG/employee-list}" th:if="${account.role.toString() == 'Admin'}">
+					                Employee Management
+					            </a>
+					            <a th:href="@{/roomMNG/roomMNG-list}" th:if="${account.role.toString() == 'Admin'}">
+					                Room Management
+					            </a>
+					            <a href="" th:if="${account.role.toString() == 'Admin' || account.role.toString() == 'Employee'}">
+					                Ticket Selling Management
+					            </a>
+					            <a th:href="@{/movieMNG/movie-list}" th:if="${account.role.toString() == 'Admin'}">
+					                Movie Management
+					            </a>
+					            <a th:href="@{/promotionMNG/promotion-list}" th:if="${account.role.toString() == 'Admin'}">
+					                Promotion Management
+					            </a>        
+                            </div>
+                        </li> 
+                    </ul>
+                </div>
+                <div>
+               		<a sec:authorize="isAnonymous()" class = "header_login" href="/login">Login/Register</a>
+               		<a sec:authorize="isAuthenticated()" class = "header_login">Welcome <span sec:authentication="name"></span> | 
+               			<a sec:authorize="isAuthenticated()"  class = "header_login" href="/logout">Logout</a>
+               		</a>
+               </div>
+            </div>
+        </div>
+    </header>
+      
+    <main>
+        <h4 class="text-center mt-3 mb-5">Show time</h4>
+        <div class="show-time-body">
+            <div class="show-week d-flex justify-content-around flex-wrap ml-5 pl-5 mb-3">
+                <a class="show-day border rounded-circle bg-info text-center font-weight-bold" th:href="@{/ticketbookingofuserMNG/showtime?datesearch={datesearch} (datesearch=${#dates.year(startDate)}+'/'+${#dates.month(startDate)}+'/'+${#dates.day(startDate)})}"><br><span th:text="${#dates.day(startDate)}"></span><br><span class="font-weight-normal" th:text="${#dates.dayOfWeekName(startDate)}"></span></a>
+                <a class="show-day border rounded-circle bg-info text-center font-weight-bold" th:href="@{/ticketbookingofuserMNG/showtime?datesearch={datesearch} (datesearch=${#dates.year(datePlus1)}+'/'+${#dates.month(datePlus1)}+'/'+${#dates.day(datePlus1)})}"><br><span th:text="${#dates.day(datePlus1)}"></span><br><span class="font-weight-normal" th:text="${#dates.dayOfWeekName(datePlus1)}"></span></a>
+                <a class="show-day border rounded-circle bg-info text-center font-weight-bold" th:href="@{/ticketbookingofuserMNG/showtime?datesearch={datesearch} (datesearch=${#dates.year(datePlus2)}+'/'+${#dates.month(datePlus2)}+'/'+${#dates.day(datePlus2)})}"><br><span th:text="${#dates.day(datePlus2)}"></span><br><span class="font-weight-normal" th:text="${#dates.dayOfWeekName(datePlus2)}"></span></a>
+                <a class="show-day border rounded-circle bg-info text-center font-weight-bold" th:href="@{/ticketbookingofuserMNG/showtime?datesearch={datesearch} (datesearch=${#dates.year(datePlus3)}+'/'+${#dates.month(datePlus3)}+'/'+${#dates.day(datePlus3)})}"><br><span th:text="${#dates.day(datePlus3)}"></span><br><span class="font-weight-normal" th:text="${#dates.dayOfWeekName(datePlus3)}"></span></a>
+                <a class="show-day border rounded-circle bg-info text-center font-weight-bold" th:href="@{/ticketbookingofuserMNG/showtime?datesearch={datesearch} (datesearch=${#dates.year(datePlus4)}+'/'+${#dates.month(datePlus4)}+'/'+${#dates.day(datePlus4)})}"><br><span th:text="${#dates.day(datePlus4)}"></span><br><span class="font-weight-normal" th:text="${#dates.dayOfWeekName(datePlus4)}"></span></a>
+                <a class="show-day border rounded-circle bg-info text-center font-weight-bold" th:href="@{/ticketbookingofuserMNG/showtime?datesearch={datesearch} (datesearch=${#dates.year(datePlus5)}+'/'+${#dates.month(datePlus5)}+'/'+${#dates.day(datePlus5)})}"><br><span th:text="${#dates.day(datePlus5)}"></span><br><span class="font-weight-normal" th:text="${#dates.dayOfWeekName(datePlus5)}"></span></a>
+            </div>
+            <table class="table mt-3">
+                <tbody class="border">
+                  <tr th:each="movie: ${list}">
+                    <td class="show-img-film p-2"><img th:src="@{'/img/movie/'+${movie.id}+'/'+${movie.largeImage}}" width="130px" height="200px"></td>
+                    <td>
+                        <h4 class="text-blue mt-3 text-primary" th:text="${movie.movieNameVn}"></h4>
+                        <p class="text-blue mt-3" th:text="${movie.movieNameEnglish}"></p>
+                        <div class="show-schedule-container d-flex justify-content-left flex-wrap mt-5">
+                        	<th:bock th:each="schedule :${movie.schedules}">
+                        		<a class="show-schedule border p-2 rounded bg-light text-dark font-weight-bold text-white mr-5" th:text="${schedule.time}" th:href="@{'/ticketbookingofuserMNG/selectseat/'+${movie.id}+'/'+${schedule.id}+'/'+${showDateId}}"></a>
+                        	</th:bock>
+                        </div>
+                    </td>
+                  </tr>
+                  
+                  
+                </tbody>
+              </table>
+        </div>
+        
+    </main>
+    <footer id="footer">
+        <div class="footer__container">
+            <div class="footer__container-logo">
+                <img src="/image/logo-image/Movie star-logo-white.png" alt="">
+            </div>
+            <p class = "footer__copyright">Copyright &copy; 2022 by Team 1 - FJB04. All Rights Reserved.</p>
+        </div>
+
+    </footer>
+    
+
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/promotion.css}">
+    <link rel="stylesheet" th:href="@{/css/responsive.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    
+    <title>Promotion - list</title>
+</head>
+<body>
+    <header >
+        <div id="header">
+            <div class="header_container container">
+                <div class="navbar-drop" sec:authorize="isAuthenticated()">
+                    <ul>
+                        <li>
+                            <a href=""><i class="fas fa-bars"></i></a>
+                            <div class="navbar-drop-item">
+                            	<a th:href="@{/}" th:if="${account.role.toString() == 'Admin' || account.role.toString() == 'Member' || account.role.toString() == 'Employee'}">
+					                Home
+					            </a>
+                                <a th:href="@{/accountMNG/bookedTicket}" th:if="${account.role.toString() == 'Admin' || account.role.toString() == 'Member' || account.role.toString() == 'Employee'}">
+					                Account Management
+					            </a>
+					             <a href="" th:if="${account.role.toString() == 'Admin'}">
+					                Ticket Booking Management
+					            </a>
+					            <a th:href="@{/employeeMNG/employee-list}" th:if="${account.role.toString() == 'Admin'}">
+					                Employee Management
+					            </a>
+					            <a th:href="@{/roomMNG/roomMNG-list}" th:if="${account.role.toString() == 'Admin'}">
+					                Room Management
+					            </a>
+					            <a href="" th:if="${account.role.toString() == 'Admin' || account.role.toString() == 'Employee'}">
+					                Ticket Selling Management
+					            </a>
+					            <a th:href="@{/movieMNG/movie-list}" th:if="${account.role.toString() == 'Admin'}">
+					                Movie Management
+					            </a>
+					            <a th:href="@{/promotionMNG/promotion-list}" th:if="${account.role.toString() == 'Admin'}">
+					                Promotion Management
+					            </a>        
+                            </div>
+                        </li> 
+                    </ul>
+                </div>
+                <div>
+               		<a sec:authorize="isAnonymous()" class = "header_login" href="/login">Login/Register</a>
+               		<a sec:authorize="isAuthenticated()" class = "header_login">Welcome <span sec:authentication="name"></span> | 
+               			<a sec:authorize="isAuthenticated()"  class = "header_login" href="/logout">Logout</a>
+               		</a>
+               </div>
+            </div>
+        </div>
+    </header>
+        
+    <main class="w-75 m-auto">
+        <div>
+        	<a th:href="@{/promotionMNG/new-promotion}" class="btn btn-sm btn-primary ml-3 mt-3"> +Add</a>
+        	 <form class="text-right mr-5 mb-3">
+                Search: <input class= "border p-2 rounded" type="text" placeholder ="Input keyword..." name="titlesearch" th:value=${titlesearch.toString}>
+            </form>
+            <h4 class="text-center mt-4 mb-4">Promotion list</h4>
+            <table class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  
+                  <th>Promotion ID</th>
+                  <th>Title</th>
+                  <th>Start time</th>
+                  <th>End time</th>
+                  <th>Discount lever</th>
+                  <th>Detail</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+                <th:block th:each = "promotion: ${list}" th:object ="${promotion}">
+                     <tr>
+		                  <td th:text="${promotion.id}">ID</td>
+		                  <td th:text="${promotion.title}">Title</td>
+		                  <td th:text="${promotion.startTime}">Start Time</td>
+		                  <td th:text="${promotion.endTime}">End Time</td>
+		                  <td th:text="${promotion.discountLevel}">Discount Level</td>
+		                  <td th:text="${promotion.detail}">Detail</td>
+		                  <td><a th:href="@{'/promotionMNG/edit-promotion/' + ${promotion.id}}"><i class="fas fa-edit"></i></a></td>
+                  		<td><a th:href="@{'/promotionMNG/delete-promotion/' + ${promotion.id}}"><i class="fas fa-trash-alt"></i></a></td>
+                     </tr>
+                 </th:block>
+              </tbody>
+            </table>
+            <nav aria-label="Page navigation example">
+			  <ul class="pagination">
+			    <li class="page-item"><a class="page-link" th:href="@{/promotionMNG/promotion-list/?titlesearch={titlesearch}&page=1 (titlesearch=${titlesearch.toString})}" th:if="${list.getTotalPages}>0" >First</a></li>
+			    <li class="page-item"><a class="page-link" th:href="@{/promotionMNG/promotion-list?titlesearch={titlesearch}&page={p} (p = ${list.getNumber},titlesearch=${titlesearch.toString})}" th:if="${list.getNumber} <= ${list.getTotalPages} and ${list.getNumber}>=1" >Preview</a></li>
+			    <li class="page-item"><a class="page-link" th:href="@{/promotionMNG/promotion-list?titlesearch={titlesearch}&page={p} (p = ${list.getNumber}+1,titlesearch=${titlesearch.toString})}" th:text="${list.getNumber + 1} " th:if="${list.getNumber + 1} <= ${list.getTotalPages}"></a></li>
+			    <li class="page-item"><a class="page-link" th:href="@{/promotionMNG/promotion-list?titlesearch={titlesearch}&page={p} (p = ${list.getNumber}+2,titlesearch=${titlesearch.toString})}" th:text="${list.getNumber + 2}" th:if="${list.getNumber + 2} <= ${list.getTotalPages}"></a></li>
+			    <li class="page-item"><a class="page-link" th:href="@{/promotionMNG/promotion-list?titlesearch={titlesearch}&page={p} (p = ${list.getNumber}+3,titlesearch=${titlesearch.toString})}" th:text="${list.getNumber + 3}" th:if="${list.getNumber + 3} <= ${list.getTotalPages}"></a></li>
+			    <li class="page-item"><a class="page-link" th:href="@{/promotionMNG/promotion-list?titlesearch={titlesearch}&page={p} (p = ${list.getNumber}+4,titlesearch=${titlesearch.toString})}" th:if="${list.getNumber + 4} <= ${list.getTotalPages}">Next</a></li>
+			    <li class="page-item"><a class="page-link" th:href="@{/promotionMNG/promotion-list?titlesearch={titlesearch}&page={p} (p = ${list.getTotalPages},titlesearch=${titlesearch.toString})}" th:if="${list.getTotalPages}>0">Last</a></li>
+			  </ul>
+			</nav>
+          </div>
+    </main>
+    <footer id="footer">
+        <div class="footer__container">
+            <div class="footer__container-logo">
+                <img src="/image/logo-image/Movie star-logo-white.png" alt="">
+            </div>
+            <p class = "footer__copyright">Copyright &copy; 2022 by Team 1 - FJB04. All Rights Reserved.</p>
+        </div>
+
+    </footer>
+    
+
+</body>
+</html>

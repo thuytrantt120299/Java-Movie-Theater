@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/promotion.css}">
+    <link rel="stylesheet" th:href="@{/css/responsive.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    
+    <title>Account Manager - Booked ticket</title>
+</head>
+<body>
+    <header >
+        <div id="header">
+            <div class="header_container container">
+                <div class="navbar-drop" sec:authorize="isAuthenticated()">
+                    <ul>
+                        <li>
+                            <a href=""><i class="fas fa-bars"></i></a>
+                            <div class="navbar-drop-item">
+                            	<a th:href="@{/}" th:if="${account.role.toString() == 'Admin' || account.role.toString() == 'Member' || account.role.toString() == 'Employee'}">
+					                Home
+					            </a>
+                                <a href="" th:href="@{/accountMNG/bookedTicket}" th:if="${account.role.toString() == 'Admin' || account.role.toString() == 'Member' || account.role.toString() == 'Employee'}">
+					                Account Management
+					            </a>
+					             <a href="" th:if="${account.role.toString() == 'Admin'}">
+					                Ticket Booking Management
+					            </a>
+					            <a th:href="@{/employeeMNG/employee-list}" th:if="${account.role.toString() == 'Admin'}">
+					                Employee Management
+					            </a>
+					            <a th:href="@{/roomMNG/roomMNG-list}" th:if="${account.role.toString() == 'Admin'}">
+					                Room Management
+					            </a>
+					            <a href="" th:if="${account.role.toString() == 'Admin' || account.role.toString() == 'Employee'}">
+					                Ticket Selling Management
+					            </a>
+					            <a th:href="@{/movieMNG/movie-list}" th:if="${account.role.toString() == 'Admin'}">
+					                Movie Management
+					            </a>
+					            <a th:href="@{/promotionMNG/promotion-list}" th:if="${account.role.toString() == 'Admin'}">
+					                Promotion Management
+					            </a>        
+                            </div>
+                        </li> 
+                    </ul>
+                </div>
+                <div>
+               		<a sec:authorize="isAnonymous()" class = "header_login" href="/login">Login/Register</a>
+               		<a sec:authorize="isAuthenticated()" class = "header_login">Welcome <span sec:authentication="name"></span> | 
+               			<a sec:authorize="isAuthenticated()"  class = "header_login" href="/logout">Logout</a>
+               		</a>
+               </div>
+            </div>
+        </div>
+    </header>
+      
+    <main>
+        
+        <div class="seat-color-block text-center mb-3 mt-5">
+            <div class="seat-color bg-primary border mr-1"></div> Seat vip 
+            <div class="seat-color bg-light border ml-3 mr-1"></div> Seat normal 
+            <div class="seat-color bg-success border ml-3 mr-1"></div> Seat is selecting
+            <div class="seat-color bg-danger border ml-3 mr-1"></div> Seat soldout 
+        </div>
+        
+        <div class="cinema-screen mb-4 text-center">Screen</div>
+        <form class="w-50 m-auto">
+            <label for="numberseat">Select number seat: </label>
+            <input type="number" class="border p-2 rounded" id="numberseat" name="numberseat" value="1">
+        </form> 
+         <form action="#" th:action="@{/ticketbookingofuserMNG/ticketbookingofuserMNG-selectseat}" method="post" th:object="${list}">
+	        <fieldset>
+	        <div class="m-auto w-75 text-center">
+	        <th:block th:each="scheduleSeat, itemStat: ${list.scheduleSeats}" >
+	        	 
+			     <span class="seat-column text-center" th:text="${scheduleSeat.seatRow}+${scheduleSeat.seatColumn}" th:classappend="|${scheduleSeat.seatType==2 ? 'bg-primary' : ''} ${scheduleSeat.seatStatus==3 ? 'bg-danger' : ''} ${scheduleSeat.seatStatus==2 ? 'bg-danger' : ''}"></span>
+			      <input readonly type="hidden" th:name="|scheduleSeats[${itemStat.index}].seatStatus|" th:value="${scheduleSeat.getSeatStatus()}"/>
+			      <input style="display:none" th:name="|scheduleSeats[${itemStat.index}].seatType|" th:value="${scheduleSeat.getSeatType()}"/>
+	      		  <input readonly type="hidden" th:name="|scheduleSeats[${itemStat.index}].seatId|" th:value="${scheduleSeat.getSeatId()}"/>
+			      <input readonly type="hidden" th:name="|scheduleSeats[${itemStat.index}].seatRow|" th:value="${scheduleSeat.getSeatRow()}"/>
+			      <input readonly type="hidden" th:name="|scheduleSeats[${itemStat.index}].seatColumn|" th:value="${scheduleSeat.getSeatColumn()}"/>
+			      <input readonly type="hidden" th:name="|scheduleSeats[${itemStat.index}].scheduleId|" th:value="${scheduleSeat.getScheduleId()}"/>
+			      <input readonly type="hidden" th:name="|scheduleSeats[${itemStat.index}].movieId|" th:value="${scheduleSeat.getMovieId()}"/>
+			      <input readonly type="hidden" th:name="|scheduleSeats[${itemStat.index}].showDateId|" th:value="${scheduleSeat.getShowDateId()}"/>
+			      <input readonly type="hidden" th:name="|scheduleSeats[${itemStat.index}].id|" th:value="${scheduleSeat.getId()}"/>
+			      <br th:if="${itemStat.index + 1} % ${numberColumn}==0" >
+			  </th:block>
+			 </div>
+	         </fieldset>
+	          <div class="text-center mt-5">
+	            <button id="submit" name="submit" class="btn btn-primary" value="1"><i class="fas fa-check"></i> Continue</button>
+	          </div>
+	     </form>
+    </main>
+    <footer id="footer">
+        <div class="footer__container">
+            <div class="footer__container-logo">
+                <img src="/image/logo-image/Movie star-logo-white.png" alt="">
+            </div>
+            <p class = "footer__copyright">Copyright &copy; 2022 by Team 1 - FJB04. All Rights Reserved.</p>
+        </div>
+
+    </footer>
+    
+
+</body>
+<script>
+     
+    const seats = document.querySelectorAll('.seat-column')
+    for(const seat of seats) {
+        seat.addEventListener('click', function changeStatus() {
+        	if(!this.classList.contains('bg-danger')){
+        		if(this.classList.contains('bg-success')){
+                	this.classList.remove('bg-success');
+                	this.nextElementSibling.value = 1;
+                }else{
+                	this.classList.add('bg-success');
+                	this.nextElementSibling.value = 5;
+                }
+        	} 
+    	});
+    }      
+</script>
+</html>
